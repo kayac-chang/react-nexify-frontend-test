@@ -13,6 +13,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: "@", replacement: "/src" },
+      { find: "path", replacement: "path-browserify" },
     ],
   },
 });

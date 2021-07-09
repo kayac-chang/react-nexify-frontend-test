@@ -5,8 +5,17 @@ import {
   TextArea,
   TextInput,
 } from "@/components";
+import { useEffect, useState } from "react";
+import { Employee } from "./api";
+import { IEmployee } from "@/types";
 
 function App() {
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
+
+  useEffect(() => {
+    Employee.get().then(setEmployees);
+  }, []);
+
   return (
     <article className="container space-y-8">
       <header className="flex justify-between">
@@ -27,35 +36,25 @@ function App() {
           </thead>
 
           <tbody className="divide-y">
-            <tr>
-              <td className="py-4 pr-4">
-                <TextInput />
-              </td>
-              <td className="py-4 pr-4">
-                <DatePicker />
-              </td>
-              <td className="py-4 pr-4">
-                <RangeSlider />
-              </td>
-              <td className="py-4 pr-4">
-                <TextArea />
-              </td>
-            </tr>
+            {employees.map(({ name, birth, salary, address }, index) => (
+              <tr key={index}>
+                <td className="py-4 pr-4">
+                  <TextInput value={name} />
+                </td>
 
-            <tr>
-              <td className="py-4 pr-4">
-                <TextInput />
-              </td>
-              <td className="py-4 pr-4">
-                <DatePicker />
-              </td>
-              <td className="py-4 pr-4">
-                <RangeSlider />
-              </td>
-              <td className="py-4 pr-4">
-                <TextArea />
-              </td>
-            </tr>
+                <td className="py-4 pr-4">
+                  <DatePicker value={birth} />
+                </td>
+
+                <td className="py-4 pr-4">
+                  <RangeSlider min={0} max={100000} value={salary} />
+                </td>
+
+                <td className="py-4 pr-4">
+                  <TextArea value={address} />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </main>
