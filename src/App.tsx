@@ -5,27 +5,29 @@ import {
   TextArea,
   TextInput,
 } from "@/components";
-import { useEffect, useState } from "react";
-import { Employee } from "./api";
-import { IEmployee } from "@/types";
+import { useEmployees } from "@/logic";
 
 function App() {
-  const [employees, setEmployees] = useState<IEmployee[]>([]);
-
-  useEffect(() => {
-    Employee.get().then(setEmployees);
-  }, []);
+  const { employees, create, save, refetch, update } = useEmployees();
 
   return (
-    <article className="container space-y-8">
+    <article className="space-y-8">
       <header className="flex justify-between">
-        <Button className="bg-indigo-button">新紀錄</Button>
-        <Button className="bg-red-button">保存</Button>
-        <Button className="bg-pink-button">更新</Button>
+        <Button className="bg-indigo-button" onClick={create}>
+          新紀錄
+        </Button>
+
+        <Button className="bg-red-button" onClick={save}>
+          保存
+        </Button>
+
+        <Button className="bg-pink-button" onClick={refetch}>
+          更新
+        </Button>
       </header>
 
       <main>
-        <table className="table-auto text-gray-400 w-full">
+        <table className="table-auto text-gray-400 min-w-[75vw]">
           <thead>
             <tr className="border-b text-left">
               <th className="py-4">名字</th>
@@ -36,22 +38,36 @@ function App() {
           </thead>
 
           <tbody className="divide-y">
-            {employees.map(({ name, birth, salary, address }, index) => (
-              <tr key={index}>
+            {employees.map((employee) => (
+              <tr key={employee.id}>
                 <td className="py-4 pr-4">
-                  <TextInput value={name} />
+                  <TextInput
+                    value={employee.name}
+                    onChange={(name) => update({ ...employee, name })}
+                  />
                 </td>
 
                 <td className="py-4 pr-4">
-                  <DatePicker value={birth} />
+                  <DatePicker
+                    value={employee.birth}
+                    onChange={(birth) => update({ ...employee, birth })}
+                  />
                 </td>
 
                 <td className="py-4 pr-4">
-                  <RangeSlider min={0} max={100000} value={salary} />
+                  <RangeSlider
+                    min={0}
+                    max={100000}
+                    value={employee.salary}
+                    onChange={(salary) => update({ ...employee, salary })}
+                  />
                 </td>
 
                 <td className="py-4 pr-4">
-                  <TextArea value={address} />
+                  <TextArea
+                    value={employee.address}
+                    onChange={(address) => update({ ...employee, address })}
+                  />
                 </td>
               </tr>
             ))}

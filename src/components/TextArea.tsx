@@ -5,8 +5,6 @@ type Props = {
 export function TextArea({ value, onChange }: Props) {
   return (
     <textarea
-      name=""
-      id=""
       cols={30}
       rows={2}
       className="border-b p-2"

@@ -1,13 +1,21 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   min?: number;
   max?: number;
   value?: number;
+  onChange?: (value: number) => void;
 };
-export function RangeSlider({ min = 0, max = 100, value: _value = 50 }: Props) {
+export function RangeSlider({
+  min = 0,
+  max = 100,
+  value: _value = 0,
+  onChange,
+}: Props) {
   const [value, setValue] = useState(_value);
+
+  useEffect(() => onChange?.(value), [value]);
 
   const percent = Math.round((value / (max - min)) * 100);
 
@@ -31,8 +39,6 @@ export function RangeSlider({ min = 0, max = 100, value: _value = 50 }: Props) {
 
       <input
         type="range"
-        name=""
-        id=""
         className="w-full absolute opacity-0"
         min={min}
         max={max}

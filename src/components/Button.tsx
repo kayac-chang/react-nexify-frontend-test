@@ -4,8 +4,9 @@ import { ReactNode } from "react";
 type Props = {
   children?: ReactNode;
   className?: string;
+  onClick?: () => void;
 };
-export function Button({ children, className }: Props) {
+export function Button({ children, className, onClick }: Props) {
   return (
     <button
       className={clsx(
@@ -14,6 +15,7 @@ export function Button({ children, className }: Props) {
         "transition-shadow duration-300 ease-out-sine",
         className
       )}
+      onClick={onClick}
     >
       {children}
     </button>
