@@ -11,7 +11,7 @@ function App() {
   const { employees, create, save, refetch, update } = useEmployees();
 
   return (
-    <article className="space-y-8">
+    <article className="container w-[75vw] 2xl:w-[60vw] space-y-8">
       <header className="flex justify-between">
         <Button className="bg-indigo-button" onClick={create}>
           新紀錄
@@ -26,8 +26,8 @@ function App() {
         </Button>
       </header>
 
-      <main>
-        <table className="table-auto text-gray-400 min-w-[75vw]">
+      <main className="overflow-scroll">
+        <table className="table-auto w-full text-gray-400">
           <thead>
             <tr className="border-b text-left">
               <th className="py-4">名字</th>
